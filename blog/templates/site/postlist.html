@@ -1,0 +1,79 @@
+{% extends 'site/mainpage.html' %}
+{% block header %}
+
+{% if user.is_staff == True %}
+  <a href="#openModal" id="openM"><span class='contact' >Добавить товар</span></a>
+  <div id="openModal" class="modalDialog">
+    <div>
+        <a href="#close" title="Закрыть" class="close">X</a>
+        <ul id="rezult"></ul>
+        <h1>Добавить:</h1>
+        <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default" id="save">Сохранить</button>
+        </form>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+{% block body %}
+    <div id='pst'>
+      <table >
+       {% for post in posts %}
+         <div>
+            <tr>
+              <td>
+                <h2><a href="{% url 'itempage' pk=post.pk %}">{{ post.item_name }}</a></h2>
+                <img src={{ post.img.url }} width="250" height="250"  >
+              </td>
+              <td>
+                <p>  </p>
+                <h4>{{ post.title|linebreaksbr }}</h4>
+                <p>{{ post.description|linebreaksbr }}</p>
+                <p>Отзывов: {{ post.commented }}</p>
+                  {% if user.is_authenticated %}
+                    <button type="button">
+                        <a href="{% url 'addtocomment' pk=post.pk %}" class='com'>Оставить отзыв</a>
+                    </button>
+                  {% endif %}
+              </td>
+            </tr>
+         </div>
+       {% endfor %}
+      </table>
+    </div>
+<center>
+  <table>
+      <tr>
+        {% if posts.has_previous %}
+        <td class="arrow"  ><a  href="/page/{{ posts.previous_page_number}}/" id="a2">&laquo;</a></td>
+          {% else %}
+          <td class="arrow unavailable"  ><a href="" id="a2">&laquo;</a></td>
+        {% endif %}
+        {% for page in posts.paginator.page_range %}
+          {% if page == posts.number %}
+            <td class="current"><a href="/page/{{ page }}" id="a2"></a></td>
+          {% else %}
+            <td><a href="/page/{{ page }}" id="a2">{{ page }}</a></td>
+          {% endif %}
+        {% endfor %}
+        {% if posts.has_next %}
+          <td class="arrow"><a href="/page/{{ posts.next_page_number }}/" id="a2" >&raquo;</a></td>
+        {% else %}
+          <td class="arrow unavailable" ><a href="" id="a2">&raquo;</a></td>
+        {% endif %}
+      </tr>
+   </table>
+</center>
+<script>
+    var pos = 0;
+            while (true) {
+                  var foundPos = document.body.innerHTML.indexOf("blog/", pos);
+                  if (foundPos == -1) break;
+                  document.getElementById("pst").innerHTML= document.getElementById("pst").innerHTML.replace('blog/', '/');
+                  pos = foundPos + 1;
+                         }
+    var a = document.getElementById('save');
+</script>
+{% endblock %}

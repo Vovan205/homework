@@ -1,0 +1,15 @@
+{% extends 'site/mainpage.html' %}
+{% block body %}
+<a href="#openModal"><span class='contact' >Добавить товар</span></a>
+<div id="openModal" class="modalDialog">
+	<div>
+		<a href="#close" title="Закрыть" class="close">X</a>
+		<h1>Добавить:</h1>
+			<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ form }}
+					<button type=button onclick="validate(this.form)">Сохранить</button>
+			</form>
+	</div>
+</div>
+{% endblock %}

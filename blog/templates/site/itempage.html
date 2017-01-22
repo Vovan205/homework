@@ -1,0 +1,31 @@
+{% extends 'site/mainpage.html' %}
+{% block body %}
+<div id='pst'>
+  <table width="80%">
+    <tr>
+      <td >
+         <h1>{{ post.item_name }}</h1>
+         <img src={{ post.img.url }} width="300" height="350"  >
+      </td>
+      <td >
+         <h4>{{ post.title|linebreaksbr }}</h4>
+         <p>{{ post.description|linebreaksbr }}</p>
+         <p>Отзывов : {{ post.commented }}</p>
+          Уже оставили свой отзыв:
+          {% for iu in item_user %}
+          <p>{{ iu.user }} : {{iu.number}}</p>
+          {% endfor %}
+      </td>
+    </tr>
+  </table>
+</div>
+<script>
+    var pos = 0;
+    while (true) {
+          var foundPos = document.body.innerHTML.indexOf("blog/", pos);
+          if (foundPos == -1) break;
+          document.getElementById("pst").innerHTML= document.getElementById("pst").innerHTML.replace('blog/', '/');
+          pos = foundPos + 1;
+                 }
+</script>
+{% endblock %}

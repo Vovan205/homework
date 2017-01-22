@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<html>
+  <head>
+    <title>IRecommend.ru</title>
+    <link rel="stylesheet" href="{% static '/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/bootstrap/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/site.css' %}">
+      <link href="{% static 'i.png' %}" rel="shortcut icon" type="image/x-icon0" />
+  </head>
+<body>
+  <header>
+    <a href="/" title="На главную" id="logo"> IRecommend.ru </a>
+    {% if user.is_authenticated %}
+    <span class='a1'><a href="{% url 'logout' %}" title="Выход">  Выход </a></span>
+    <span class='a1' >Здравствуйте, {{user.username}}</span>
+    {% else%}
+    <span class='a1'><a href="{% url 'register' %}" title="Регистрация"> Регистрация </a></span>
+    <span class='a1'><a href="{% url 'login' %}" title="Зайти"> Вход </a></span>
+    {% endif %}
+    {% block header %}
+    {% endblock %}
+  </header>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

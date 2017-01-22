@@ -1,0 +1,13 @@
+{% extends 'site/mainpage.html' %}
+{% block title %}
+{% endblock%}
+{% block body %}
+  {% if form.errors %}
+    <p>Неверный логин или пароль. Попробуйте ещё раз.</p>
+  {% endif %}
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Войти</button>
+    </form>
+{% endblock %}
